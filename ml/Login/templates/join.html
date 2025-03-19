@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join ScrapZoo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>How do you want to join ScrapZoo as?</h1>
+
+        <div class="tab-buttons">
+            <button class="active">Join as Seller</button>
+            <button>Join as Buyer</button>
+        </div>
+
+        <p>When you join as a Seller, you can create orders and sell your material to our buyers.</p>
+
+        <img src="{{ url_for('static', filename='images/recycle_image.jpg') }}" alt="Recycling Image">
+
+        <p>By clicking “Let’s Start” you agree to the ScrapZoo <a href="#">T&C</a> and <a href="#">Privacy Policy</a>.</p>
+
+        <button class="start-btn">Let’s Start as Seller</button>
+    </div>
+</body>
+</html>
