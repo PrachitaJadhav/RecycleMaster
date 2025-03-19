@@ -3,18 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
+from models import db, User, Material  # ✅ Import the same `db` instance
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db=SQLAlchemy(app)
-
-from models import db
-from models import User, Material
-# Initialize extensions
+# ✅ Initialize db with app
 db.init_app(app)
+
+# Initialize Flask-Login
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -32,22 +31,22 @@ def register():
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
-        
+
         # Check if user already exists
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already exists.')
             return redirect(url_for('register'))
-        
+
         # Create new user
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         new_user = User(username=username, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        
+
         flash('Account created successfully!')
         return redirect(url_for('login'))
-    
+
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -55,15 +54,15 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        
+
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for('dashboard'))
-        
+
         flash('Invalid email or password.')
         return redirect(url_for('login'))
-    
+
     return render_template('login.html')
 
 @app.route('/logout')
@@ -84,18 +83,17 @@ def materials():
     if request.method == 'POST':
         name = request.form.get('name')
         weight = request.form.get('weight')
-        
-        # Validate input
+
         if not name or not weight:
             flash('Please fill all fields.')
             return redirect(url_for('materials'))
-        
+
         try:
             weight_float = float(weight)
             if weight_float <= 0 or weight_float > 1000:
                 flash('Weight must be between 0 and 1000 kg.')
                 return redirect(url_for('materials'))
-                
+
             # Add new material
             new_material = Material(name=name, weight=weight_float, user_id=current_user.id)
             db.session.add(new_material)
@@ -105,7 +103,7 @@ def materials():
         except ValueError:
             flash('Weight must be a valid number.')
             return redirect(url_for('materials'))
-    
+
     return render_template('materials.html')
 
 if __name__ == '__main__':
