@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Language</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Language</h1>
+        <p>🌟 Welcome to ScrapZoo! 🌟</p>
+        <form method="POST">
+            <div class="language-options">
+                <label class="language">
+                    <input type="radio" name="language" value="English" checked>
+                    <span>English</span>
+                </label>
+                <label class="language">
+                    <input type="radio" name="language" value="Hindi">
+                    <span>हिन्दी</span>
+                </label>
+                <label class="language">
+                    <input type="radio" name="language" value="Marathi">
+                    <span>मराठी</span>
+                </label>
+                <label class="language">
+                    <input type="radio" name="language" value="Gujarati">
+                    <span>ગુજરાતી</span>
+                </label>
+            </div>
+            <button type="submit" class="continue-btn">Continue</button>
+        </form>
+    </div>
+</body>
+</html>
