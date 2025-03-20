@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenCV Stream</title>
+    <title>Recyclable Materials</title>
 </head>
 <body>
-    <h1>Live Video Feed</h1>
-    <img src="{{ url_for('video_feed') }}" width="60%">
+    <h1>Detected Recyclable Materials</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Material</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        {% for material in materials %}
+        <tr>
+            <td>{{ material[0] }}</td>
+            <td>{{ material[1] }}</td>
+            <td>{{ material[2] }}</td>
+            <td><a href="{{ url_for('add_to_cart', material_id=material[0]) }}">Add to Cart</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="{{ url_for('cart') }}">View Cart</a>
 </body>
 </html>
